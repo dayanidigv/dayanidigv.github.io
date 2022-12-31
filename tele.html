@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Send Data to daya</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+  <!-- Add a Bootstrap container element -->
+  <div class="container mt-5">
+  <h1 class="text-primary text-center">Send Data to daya</h1>
+    <h1>Send Text</h1>
+    <input type="text" id="text" class="form-control">
+    <button onclick="sendtext()" class="btn btn-primary mt-3">Send Text</button>
+    <hr>
+    <h1>Send Photo</h1>
+    <input type="file" id="fileInput" class="form-control">
+    <button onclick="sendPhoto()" class="btn btn-primary mt-3">Send Photo</button>
+    <hr>
+    <h1>Send Doc</h1>
+    <input type="file" id="docfileInput" class="form-control">
+    <button onclick="senddoc()" class="btn btn-primary mt-3">Send Doc</button>
+   <hr>
+   
+  <script>
+  function sendtext() {
+      // Get the file input element
+      const text = document.getElementById('text');
+
+      // Check if a file has been selected
+      if (!text.value) {
+        alert('text not found');
+        return;
+      }
+
+     fetch('https://api.telegram.org/bot5584328065:AAHIM8QNc8cU_0ktfj8li9V6TfPXc6xeEt8/sendMessage?chat_id=-870561979&text='+text.value);
+	 alert('Sended...');
+    }
+ 
+ function sendPhoto() {
+      // Get the file input element
+      const fileInput = document.getElementById('fileInput');
+
+      // Check if a file has been selected
+      if (!fileInput.files || !fileInput.files[0]) {
+        alert('Please select a file');
+        return;
+      }
+
+      // Get the selected file
+      const file = fileInput.files[0];
+
+      // Create a new FormData object
+      const formData = new FormData();
+
+      // Add the file to the FormData object
+      formData.append('photo', file);
+
+      // Send the photo to Telegram
+      fetch('https://api.telegram.org/bot5584328065:AAHIM8QNc8cU_0ktfj8li9V6TfPXc6xeEt8/sendPhoto?chat_id=-870561979&caption=', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+		alert('Sended...');
+    }
+ 
+   function senddoc() {
+  // Get the file input element
+  const docfileInput = document.getElementById('docfileInput');
+
+  // Check if a file has been selected
+  if (!docfileInput.files || !docfileInput.files[0]) {
+    alert('Please select a file');
+    return;
+  }
+
+  // Get the selected file
+  const file = docfileInput.files[0];
+
+  // Create a new FormData object
+  const formData = new FormData();
+
+  // Add the file to the FormData object
+  formData.append('document', file);
+
+  // Send the document to Telegram
+  fetch('https://api.telegram.org/bot5584328065:AAHIM8QNc8cU_0ktfj8li9V6TfPXc6xeEt8/sendDocument?chat_id=-870561979', {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+	alert('Sended...');
+}
+  </script>
+</body>
+</html>
