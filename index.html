@@ -52,7 +52,7 @@
         alert('text not found');
         return;
       }
-     fetch('https://api.telegram.org/bot5584328065:AAHIM8QNc8cU_0ktfj8li9V6TfPXc6xeEt8/sendMessage?chat_id='+id.value+'&text='+text.value)
+     fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendMessage?chat_id='+id.value+'&text='+text.value)
 	 .then(response => response.json())
     .then(data => {
       console.log(data);
@@ -87,7 +87,7 @@ function sendphoto() {
   for (let i = 0; i < fileInput.files.length; i++) {
     // Add each file to the FormData object
     formData.append('photo', fileInput.files[i]);
-	fetch('https://api.telegram.org/bot5584328065:AAHIM8QNc8cU_0ktfj8li9V6TfPXc6xeEt8/sendPhoto?chat_id='+id.value+'&caption=', {
+	fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendPhoto?chat_id='+id.value+'&caption=', {
     method: 'POST',
     body: formData,
     
@@ -127,7 +127,7 @@ const formData = new FormData();
   for (let i = 0; i < fileInput.files.length; i++) {
 formData.append('video', fileInput.files[i]);
 // Send the video to the server using a POST request
-fetch('https://api.telegram.org/bot5584328065:AAHIM8QNc8cU_0ktfj8li9V6TfPXc6xeEt8/sendVideo?chat_id='+id.value+'&caption=', {
+fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendVideo?chat_id='+id.value+'&caption=', {
   method: 'POST',
   body: formData,
    
@@ -169,7 +169,7 @@ fileInput.value = "";
   for (let i = 0; i < fileInput.files.length; i++) {
     // Add each file to the FormData object
     formData.append('document', fileInput.files[i]);
-	fetch('https://api.telegram.org/bot5584328065:AAHIM8QNc8cU_0ktfj8li9V6TfPXc6xeEt8/sendDocument?chat_id='+id.value+'&caption=', {
+	fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendDocument?chat_id='+id.value+'&caption=', {
     method: 'POST',
     body: formData,
   })
