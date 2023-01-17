@@ -10,6 +10,8 @@ var languageSelect = document.getElementById("language-select");
 var themeSelect = document.getElementById("theme-select");
 var letterCount = document.getElementById("letter-count");
 var lineCount = document.getElementById("line-count");
+Question = "Write a palindrome program?" 
+document.getElementById("Question").innerHTML = Question;
 var Output = "";
 var lang = "";
 var RunTime = 0;
@@ -101,25 +103,35 @@ runButton.addEventListener("click", function() {
 });
 
 function getdata(){
+	if(RunTime > 0)
+	{
+    let msg = "confirmation to submit";
+    if (confirm(msg) == true){
+        let editorLength = editor.getSession().getLength();
+        let editorValue = editor.getValue().length;
+        let input = inputArea.value;
+        let output = Output;
+        let result = "Question : "+ Question + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n\nCode: \n"+ editor.getValue()+ "\n\nInput:\n "+ input+ "\n\nOutput: \n"+ output
+        // Create the pdf
+        let doc = new jsPDF();
+		doc.text("LAT Report", 10, 10);
+        doc.text(result, 10, 30);
+        
+        
+        // Save the pdf
+        doc.save("submission.pdf", {download: true});
 
-	let msg = "confirmation to submit";
-	if (confirm(msg) == true){
-	
-	alert("Total Time = "  +  value + "\nQuestion view Time = "  +  value1+ "\nTotal Run Counts = "  +  RunTime  +  "\nTotal Lines = "  +  editor.getSession().getLength() + "\nTotal Letters = "+editor.getValue().length+ "\n Language = "+lang);
-    alert("Code:\n"+editor.getValue());
-    alert("Input:\n"+inputArea.value);
-	alert("Output:\n"+Output);
-  const fs = require("fs");
-  fs.readFile("/file_27.html","utf8",(err,data)=>{
-    if(err){alert(err);return;}
-    alert("hello");
-  });
+    }
+    else{
+        alert("Submit canceled");
+    }
 	}
 	else{
-	alert("Submit canceled");
+		alert("Code is not Run");
 	}
-
 }
+
+
 
 themeSelect.addEventListener("change", function() {
     editor.setTheme(this.value);
@@ -139,7 +151,7 @@ var value1 = "";
 var time = "";
 
 Time()
-
+QTime()
 function Time(){
 	if(s <60 && m==0 ){
 		value = s + "s ";
