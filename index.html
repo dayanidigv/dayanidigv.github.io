@@ -1,197 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Send Data to Yourself</title>
-  <!-- Include Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
 </head>
-
 <body>
-  <!-- Add a Bootstrap container element -->
-  <div class="container mt-5">
-  <h1 class="text-success text-center">Send Data to Yourself</h1>
-  
-  <label><b>Enter your Group id:</b><input type="text" id="id" class="form-control " placeholder="Group ID" value="1221832086"></label>
-  
-  
-    <h1>Send Text</h1>
-    <textarea id="text" class="form-control col-xl-7 "></textarea>
-    <button onclick="sendtext()" class="btn btn-success mt-5">Send Text</button> <h5 class="" id="result1" ></h5>
-    <hr>
-	
-    <h1>Send Photo</h1>
-    <input type="file" id="fileInput" class="form-control" multiple>
-    <button onclick="sendphoto()" class="btn btn-success mt-5">Send Photo </button><h5 class="" id="result2" ></h5>
-    <hr>
-	
-	<h1>Send Video</h1>
-    <input type="file" id="videofileInput" class="form-control" multiple>
-    <button onclick="sendvideo()" class="btn btn-success mt-5">Send Video </button><h5 class="" id="result3" ></h5>
-    <hr>
-	
-    <h1>Send Document</h1>
-    <input type="file" id="docfileInput" class="form-control" multiple>
-    <button onclick="senddoc()" class="btn btn-success mt-5">Send Doc </button><h5 class="" id="result4" ></h5>
-   <hr>
-   <p>
-   <h3>node:</h3><pre class="font-size-sm">   If you will use in personaly... follow the below steps. 
-   
-	Step 1: Goto to telegram.
-	Step 2: Create a Group.
-	Step 3: Add <b>AFPLUAAS</b> Bot in your Group.
-	Step 4: Get Group Chat_id. Example Group Caht_id :1221832086 	
-   </pre>
-   </p>
-   
-  <script>
-  function sendtext() {
-      const text = document.getElementById('text');
-	  const id = document.getElementById('id');
-	  const result = document.getElementById('result1');
-      if (!text.value) {
-        alert('text not found');
-        return;
-      }
-     fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendMessage?chat_id='+id.value+'&text='+text.value)
-	 .then(response => response.json())
-    .then(data => {
-      console.log(data);
-	  if(data.ok == true)
-	  {
-	  text.value="";
-	  result.className="text-success";
-	  result.innerHTML='Text send Successfully...';
-	  }
-	  else
-	  {
-	  result.innerHTML=data.description;
-	  result.className="text-danger";
-	  }
-    })
-}
-function sendphoto() {
-  // Get the file input element and the progress bar element
-  const fileInput = document.getElementById('fileInput');
-  //const progressBar = document.getElementById('progressBar1');
-  const id = document.getElementById('id');
-  const result = document.getElementById('result2');
-  
-  // Check if any files have been selected
-  if (!fileInput.files || !fileInput.files.length) {
-    alert('Please select one or more files');
-    return;
-  }
-  // Create a new FormData object
-  const formData = new FormData();
-  // Loop through the selected files
-  for (let i = 0; i < fileInput.files.length; i++) {
-    // Add each file to the FormData object
-    formData.append('photo', fileInput.files[i]);
-	fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendPhoto?chat_id='+id.value+'&caption=', {
-    method: 'POST',
-    body: formData,
-    
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-	  if(data.ok == false)
-	  {
-	  result.innerHTML=data.description;
-	  result.className="text-danger";
-	  }
-	  else{
-	  result.className="text-success";
-	  result.innerHTML='Photos '+(i+1)+' Upload successfully';
-	  }
-    })
-	formData.delete('photo');
-  }
-  fileInput.value = "";
-}
+    <div class="container-fluid bg-dark text-success" >
+        <div class="row">
+            <div class="col-sm-8">
+				<div id="questionModal" style="display:none;">
+					<div class="modal-content">
+						<div class="modal-header border rounder">
+							<h6 class="modal-title">Write a palindrome program? </h6>
+							<button type="button" onclick="closeModal()" class="btn btn-light border text-success" >X</button>
+						</div>
+						<pre id="questionTime" class="text-success">0</pre>
+					</div>
+				</div>
 
-function sendvideo() {
-	// Get the file input element
-const fileInput = document.getElementById('videofileInput');
-//const progressBar = document.getElementById('progressBar2');
-const id = document.getElementById('id');
-const result = document.getElementById('result3');
-// Check if any files have been selected
-if (!fileInput.files || !fileInput.files.length) {
-  alert('Please select a file');
-  return;
-}
-// Create a new FormData object
-const formData = new FormData();
-// Add the video file to the FormData object
-  for (let i = 0; i < fileInput.files.length; i++) {
-formData.append('video', fileInput.files[i]);
-// Send the video to the server using a POST request
-fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendVideo?chat_id='+id.value+'&caption=', {
-  method: 'POST',
-  body: formData,
-   
-})
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-	if(data.ok == false)
-	{
-	result.innerHTML=data.description;
-	  result.className="text-danger";
-	}
-	else{
-	result.className="text-success";
-	  result.innerHTML='Video '+(i+1)+'successfully Uploaded';
-	}
-  });
+                <div class="card bg-dark">
+                    <div class="card-body bg-dark  ">
+					<div id="question">
+					<button onclick="openModal()" class="btn btn-alert border text-secondary">View Question</button>
 
-  formData.delete('video');
-  
-}
+                      <label>Code</label>  <select id="language-select" class="custom-select col-sm-3 bg-dark text-secondary">
+							<option value="">select</option>
+                            <option value="python">Python</option>
+							<option value="java">Java</option>
+                            <option value="c">C</option>
+                            <option value="cpp">C++</option>
+                            <option value="cs">C#</option>
+                        </select>
+						
+						
+                       <label>Theme</label> <select id="theme-select" class="custom-select col-sm-3 bg-dark text-secondary">
+							<option value="ace/theme/ambiance">Ambiance</option>
+							<option value="ace/theme/chaos">Chaos</option>
+							<option value="ace/theme/chrome">Chrome</option>
+							<option value="ace/theme/clouds">Clouds</option>
+							<option value="ace/theme/clouds_midnight">Clouds Midnight</option>
+							<option value="ace/theme/cobalt">Cobalt</option>
+							<option value="ace/theme/crimson_editor">Crimson Editor</option>
+							<option value="ace/theme/dawn">Dawn</option>
+							<option value="ace/theme/dracula">Dracula</option>
+							<option value="ace/theme/dreamweaver">Dreamweaver</option>
+							<option value="ace/theme/eclipse">Eclipse</option>
+							<option value="ace/theme/github">Github</option>
+							<option value="ace/theme/gob">Gob</option>
+							<option value="ace/theme/gruvbox">Gruvbox</option>
+							<option value="ace/theme/idle_fingers">Idle Fingers</option>
+							<option value="ace/theme/iplastic">Iplastic</option>
+							<option value="ace/theme/katzenmilch">Katzenmilch</option>
+							<option value="ace/theme/kr_theme">kr theme</option>
+							<option value="ace/theme/kuroir">Kuroir</option>
+							<option value="ace/theme/merbivore">Merbivore</option>
+							<option value="ace/theme/merbivore_soft">Merbivore Soft</option>
+							<option value="ace/theme/monokai">Monokai</option>
+							<option value="ace/theme/nord_dark">Nord Dark</option>
+							<option value="ace/theme/pastel_on_dark">Pastel on Dark</option>
+							<option value="ace/theme/solarized_dark">Solarized Dark</option>
+							<option value="ace/theme/solarized_light">Solarized Light</option>
+							<option value="ace/theme/terminal">Terminal</option>
+							<option value="ace/theme/textmate">Textmate</option>
+							<option value="ace/theme/tomorrow">Tomorrow</option>
+							<option value="ace/theme/tomorrow_night">Tomorrow Night</option>
+							<option value="ace/theme/tomorrow_night_blue">Tomorrow Night Blue</option>
+							<option value="ace/theme/tomorrow_night_bright">Tomorrow Night Bright</option>
+							<option value="ace/theme/tomorrow_night_eighties">Tomorrow Night 80s</option>
+							<option value="ace/theme/twilight">Twilight</option>
+							<option value="ace/theme/vibrant_ink">Vibrant Ink</option>
+							<option value="ace/theme/xcode">Xcode</option>
+</select>
 
-fileInput.value = "";
-}
+</div>
+                    
+                
+                        <div id="editor" class="text-xl" style="height:517px;" ></div>
+                        <pre class="text-secondary">Letter count: <span id="letter-count">0</span>      Line count: <span id="line-count">0</span></pre>
 
- function senddoc() {
-  // Get the file input element
-  const fileInput = document.getElementById('docfileInput');
-  const id = document.getElementById('id');
-  const result = document.getElementById('result4');
-  // Check if any files have been selected
-  if (!fileInput.files || !fileInput.files.length) {
-    alert('Please select one or more files');
-    return;
-  }
-  // Create a new FormData object
-  const formData = new FormData();
-  // Loop through the selected files
-  for (let i = 0; i < fileInput.files.length; i++) {
-    // Add each file to the FormData object
-    formData.append('document', fileInput.files[i]);
-	fetch('https://api.telegram.org/bot5830822420:AAGvhHGM5UIEOKo6hUa4lPQkwoAdnW8i5eQ/sendDocument?chat_id='+id.value+'&caption=', {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-	  if(data.ok == false)
-	  {
-	  result.innerHTML=data.description;
-	  result.className="text-danger";
-	  }
-	  else{
-	  result.className="text-success";
-	  result.innerHTML='Document'+(i+1)+' successfully submitted';
-	  }
-    })
-	formData.delete('document');
-  }
-fileInput.value = "";
-}
-  
-  
-  </script>
+                    </div>
+                     </div>
+            </div>
+            <div class="col-sm-4 " >
+				 <div class="card bg-dark">
+					
+					 <div class="card-header text-right">
+                        <span id="time" class="text-secondary ">0</span><button id="submit-button" class="btn btn-alert border text-success" onclick="getdata()">Submit</button>
+                    </div>
+                </div>
+				<div class="card bg-dark">
+                    <div class="card-header ">
+                        Input:
+                    </div>
+                    <div class="card-body ">
+                        <textarea id="input-area" class="form-control bg-secondary text-light" style="height:50px;"></textarea>
+                    </div>
+                </div>
+              
+                <div class="card bg-dark">
+                    <div class="card-header ">
+                        Output:     <button id="run-button" class="btn btn-primary mr-0">Run</button>
+                    </div>
+                    <div class="card-body ">
+                        <textarea id="output-area" class="form-control bg-secondary text-light" style="height:320px;" readonly >></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>	
+		
+
+
+
+       <script src="script.js"></script>
 </body>
 </html>
