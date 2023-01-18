@@ -4,7 +4,7 @@ fetch (file)
 .then(x => x.text())
 .then(y => {
      let jsons = JSON.parse(y);
-    const q_uestion = jsons.question[Math.floor(Math.random()*20)];
+    q_uestion = jsons.question[Math.floor(Math.random()*20)];
     //console.log(q_uestion);
     document.getElementById("Question").innerHTML = q_uestion;
 });
@@ -130,7 +130,7 @@ function getdata(){
         let editorValue = editor.getValue().length;
         let input = inputArea.value;
         let output = Output;
-        let result = "Question : "+ Question + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n\nCode: \n"+ editor.getValue()+ "\n\nInput:\n "+ input+ "\n\nOutput: \n"+ output
+        let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n\nCode: \n"+ editor.getValue()+ "\n\nInput:\n "+ input+ "\n\nOutput: \n"+ output
         // Create the pdf
         let doc = new jsPDF();
 		doc.text("LAT Report", 10, 10);
