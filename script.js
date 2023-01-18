@@ -1,10 +1,11 @@
+//get questions in json file to display random question.
 let file = "questions.json"
 fetch (file)
 .then(x => x.text())
 .then(y => {
      let jsons = JSON.parse(y);
     const q_uestion = jsons.question[Math.floor(Math.random()*20)];
-    console.log(q_uestion);
+    //console.log(q_uestion);
     document.getElementById("Question").innerHTML = q_uestion;
 });
 
@@ -26,32 +27,34 @@ var Output = "";
 var lang = "";
 var RunTime = 0;
 
+
+
 editor.setFontSize(15);
 editor.setTheme("ace/theme/ambiance");
 		
 
-
-
-    function openModal() {
+//view questions.
+function openModal() {
         questionModal.style.display = "block";
-		question.style.display = "none";
+	question.style.display = "none";
 		
     }
-
-    function closeModal() {
+//Hide questions.
+function closeModal() {
         questionModal.style.display = "none";
-		question.style.display = "block";
+	question.style.display = "block";
 		
-    }
+}
 
 
 
-//Add event listener on editor change to update letter count and line count
+// update letter count and line count.
 editor.getSession().on("change", function() {
   letterCount.innerHTML = editor.getValue().length;
   lineCount.innerHTML = editor.getSession().getLength();
 });
 
+//get Code Language and set editor theme...
 languageSelect.addEventListener("change", function() {
 	
 	if (this.value == "python")
@@ -82,7 +85,12 @@ languageSelect.addEventListener("change", function() {
     
 });
 
-// Use fetch API to send a POST request to the specified URL
+//Set theme...
+themeSelect.addEventListener("change", function() {
+    editor.setTheme(this.value);
+});
+
+// Use fetch API to send a POST request to get output.
 runButton.addEventListener("click", function() {
 	if(languageSelect.value != ""){
 		RunTime = RunTime + 1;
@@ -112,6 +120,7 @@ runButton.addEventListener("click", function() {
 	}
 });
 
+//Submit function to get LAT report...
 function getdata(){
 	if(RunTime > 0)
 	{
@@ -143,13 +152,11 @@ function getdata(){
 
 
 
-themeSelect.addEventListener("change", function() {
-    editor.setTheme(this.value);
-});
+
 
        
 	
-
+//*****************************************************************Start Time functions*****************************************************************
 var s = 0;
 var m = 0;
 var h = 0;
@@ -201,7 +208,7 @@ setTimeout(() => {
 }, 1000);	
 }
 
-
+//Question view Time...
 function QTime(){
 	if(S1 <60 && M1==0 ){
 		value1 = S1 + "s ";
@@ -237,3 +244,4 @@ document.getElementById("questionTime").innerHTML =value1;
 	
 }
 
+//*****************************************************************End Time functions*****************************************************************
