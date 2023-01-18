@@ -3,10 +3,10 @@ fetch (file)
 .then(x => x.text())
 .then(y => {
      let jsons = JSON.parse(y);
-     Question = jsons.question[Math.floor(Math.random()*20)];
-     console.log(Question);
+     
 });
-
+let Q = jsons.question[Math.floor(Math.random()*20)];
+console.log(Q);
 
 var editor = ace.edit("editor");
 var questionModal = document.getElementById("questionModal");
@@ -20,7 +20,7 @@ var themeSelect = document.getElementById("theme-select");
 var letterCount = document.getElementById("letter-count");
 var lineCount = document.getElementById("line-count");
 //Question = "Write a palindrome program?" 
-document.getElementById("Question").innerHTML = Question;
+document.getElementById("Question").innerHTML = Q;
 var Output = "";
 var lang = "";
 var RunTime = 0;
