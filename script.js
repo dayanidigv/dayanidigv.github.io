@@ -3,11 +3,11 @@ fetch (file)
 .then(x => x.text())
 .then(y => {
      let jsons = JSON.parse(y);
-     let Q = jsons.question[Math.floor(Math.random()*20)];
-     let Q_uestion = Q;
+     let Q_uestion = jsons.question[Math.floor(Math.random()*20)];
+    console.log(Q_uestion);
+    document.getElementById("Question").innerHTML = Q_uestion;
 });
-console.log(Question);
-     document.getElementById("Question").innerHTML = Q_uestion;
+
 
 var editor = ace.edit("editor");
 var questionModal = document.getElementById("questionModal");
