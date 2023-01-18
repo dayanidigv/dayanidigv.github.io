@@ -1,3 +1,7 @@
+let file = "questions.json"
+fetch (file)
+.then(x => x.text())
+.then(y => console.log(y));
 
 var editor = ace.edit("editor");
 var questionModal = document.getElementById("questionModal");
