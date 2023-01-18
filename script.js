@@ -4,10 +4,10 @@ fetch (file)
 .then(y => {
      let jsons = JSON.parse(y);
      let Q = jsons.question[Math.floor(Math.random()*20)];
-     let Question = Q;
+     let Q_uestion = Q;
 });
 console.log(Question);
-     document.getElementById("Question").innerHTML = Question;
+     document.getElementById("Question").innerHTML = Q_uestion;
 
 var editor = ace.edit("editor");
 var questionModal = document.getElementById("questionModal");
