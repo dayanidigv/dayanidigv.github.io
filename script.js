@@ -4,7 +4,7 @@ fetch (file)
 .then(y => {
      let jsons = JSON.parse(y);
      let Q = jsons.question[Math.floor(Math.random()*20)];
-     let Question = JSON.stringify(Q)
+     let Question = Q;
 });
 console.log(Question);
      document.getElementById("Question").innerHTML = Question;
