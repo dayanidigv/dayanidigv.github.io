@@ -2,9 +2,9 @@ let file = "questions.json"
 fetch (file)
 .then(x => x.text())
 .then(y => {
-    let jsons = JSON.parse(y);
-    Question = jsons.question[Math.floor(Math.random()*20)];
-    console.log(Question);
+     let jsons = JSON.parse(y);
+     Question = jsons.question[Math.floor(Math.random()*20)];
+     console.log(Question);
 });
 
 
