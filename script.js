@@ -3,9 +3,9 @@ fetch (file)
 .then(x => x.text())
 .then(y => {
      let jsons = JSON.parse(y);
-     let Q_uestion = jsons.question[Math.floor(Math.random()*20)];
-    console.log(Q_uestion);
-    document.getElementById("Question").innerHTML = Q_uestion;
+    const q_uestion = jsons.question[Math.floor(Math.random()*20)];
+    console.log(q_uestion);
+    document.getElementById("Question").innerHTML = q_uestion;
 });
 
 
