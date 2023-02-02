@@ -21,6 +21,8 @@ var languageSelect = document.getElementById("language-select");
 var themeSelect = document.getElementById("theme-select");
 var letterCount = document.getElementById("letter-count");
 var lineCount = document.getElementById("line-count");
+
+var spinner = document.getElementById("spinner");
 //Question = "Write a palindrome program?" 
 
 var Output = "";
@@ -89,11 +91,12 @@ languageSelect.addEventListener("change", function() {
 themeSelect.addEventListener("change", function() {
     editor.setTheme(this.value);
 });
-
 // Use fetch API to send a POST request to get output.
 runButton.addEventListener("click", function() {
 	if(languageSelect.value != ""){
 		RunTime = RunTime + 1;
+		spinner.style.display = "block";
+		outputArea.style.display = "none";
 		fetch('https://api.codex.jaagrav.in/', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -101,6 +104,8 @@ runButton.addEventListener("click", function() {
 		})
 		.then(res => res.json())
 		.then(data => {
+			spinner.style.display = "none";
+			outputArea.style.display = "block";
 			// Display the output in the "outputArea" element
 			if (data.output != ""){
 				outputArea.value = data.output;
