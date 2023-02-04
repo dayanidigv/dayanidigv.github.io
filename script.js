@@ -145,7 +145,7 @@ function getdata(){
         let doc = new jsPDF();
 	doc.text("LAT Report", 10, 10);
 		    
-        let linesPerPage = 45; // change this to adjust the number of lines per page 
+        let linesPerPage = 44; // change this to adjust the number of lines per page 
 	let lines = result.split('\n'); 
 	for (let i = 0; i < lines.length; i += linesPerPage) { 
 		doc.text(lines.slice(i, i + linesPerPage).join('\n'), 10, 20); 
