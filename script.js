@@ -1,15 +1,4 @@
-//get questions in json file to display random question.
-let file = "questions.json"
-fetch (file)
-.then(x => x.text())
-.then(y => {
-     let jsons = JSON.parse(y);
-    q_uestion = jsons.question[Math.floor(Math.random()*20)];
-    //console.log(q_uestion);
-    document.getElementById("Question").innerHTML = q_uestion;
-});
-
-
+//.......................................................................declaretions.................................................
 var editor = ace.edit("editor");
 var questionModal = document.getElementById("questionModal");
 var question = document.getElementById("question");
@@ -21,26 +10,39 @@ var languageSelect = document.getElementById("language-select");
 var themeSelect = document.getElementById("theme-select");
 var letterCount = document.getElementById("letter-count");
 var lineCount = document.getElementById("line-count");
-
 var spinner = document.getElementById("spinner");
-//Question = "Write a palindrome program?" 
-
 var Output = "";
 var lang = "";
 
+//.................................................get questions in json file to display random question..................................................
+let file = "questions.json"
+fetch (file)
+.then(x => x.text())
+.then(y => {
+     let jsons = JSON.parse(y);
+    q_uestion = jsons.question[Math.floor(Math.random()*20)];
+    //console.log(q_uestion);
+    document.getElementById("Question").innerHTML = q_uestion;
+});
 
 
+//.................................................Set Editor font Size.................................................
 editor.setFontSize(15);
-editor.setTheme("ace/theme/ambiance");
-		
 
-//view questions.
+		
+//.................................................Set Editortheme...................................................
+editor.setTheme("ace/theme/ambiance");
+themeSelect.addEventListener("change", function() {
+    editor.setTheme(this.value);
+});
+
+//.................................................view questions..................................................
 function openModal() {
         questionModal.style.display = "block";
 	question.style.display = "none";
 		
     }
-//Hide questions.
+//.................................................Hide questions..................................................
 function closeModal() {
         questionModal.style.display = "none";
 	question.style.display = "block";
@@ -49,13 +51,13 @@ function closeModal() {
 
 
 
-// update letter count and line count.
+// .................................................update letter count and line count..................................................
 editor.getSession().on("change", function() {
   letterCount.innerHTML = editor.getValue().length;
   lineCount.innerHTML = editor.getSession().getLength();
 });
 
-//get Code Language and set editor theme...
+//.................................................get Code Language and set editor theme....................................................
 languageSelect.addEventListener("change", function() {
 	
 	if (this.value == "python")
@@ -86,13 +88,9 @@ languageSelect.addEventListener("change", function() {
     
 });
 
-//Set theme...
-themeSelect.addEventListener("change", function() {
-    editor.setTheme(this.value);
-});
 
 
-// Use fetch API to send a POST request to get output.
+//.................................................Use fetch API to send a POST request to get output..................................................
 let RunTime = 0;
 let dataArray = [];
 runButton.addEventListener("click", function() {
@@ -114,17 +112,18 @@ runButton.addEventListener("click", function() {
 		if (data.output != ""){
 		outputArea.value = data.output;
 		Output = data.output;
-			console.log(data.output);
 		}
 		else{
 		outputArea.value = data.error;
 		Output = data.error;
-			console.log(data.error);
 		}
-			
-		// Store the data for each run
+		const codeLength = editor.getSession().getLength();
+       	const codeValueCount = editor.getValue().length;
+		// Store the data for each run in array
 		dataArray.push({
 			runtime: RunTime,
+			line: codeLength,
+			lettercount: codeValueCount,
 			code: editor.getValue(),
 			input: inputArea.value,
 			output: Output,
@@ -142,6 +141,7 @@ runButton.addEventListener("click", function() {
 	}
 });
 
+//.................................................remove the dataArray in session storage if the page is reloaded.................................................
 sessionStorage.removeItem("dataArray")
 //Submit function to get LAT report...
 function getdata(){
@@ -154,23 +154,28 @@ function getdata(){
 				const fileName = prompt("change to file name...", "LAT_report.pdf");
 				if(fileName != null)
 				{
-					let editorLength = editor.getSession().getLength();
+						let editorLength = editor.getSession().getLength();
        					let editorValue = editor.getValue().length;
       					let input = inputArea.value;
         				let output = Output;
-        				let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue ;
+        				let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\n" ;
    
 					let dataArray = JSON.parse(sessionStorage.getItem("dataArray"));
 					dataArray.forEach(data => {
-					result += "\nReport runtime: " + data.runtime +  "\n\n\tLanguage: " + data.language + "\n" + "\n\n\tCode: \n\n" + data.code + "\n\n\tInput:\n" + data.input + "\n\n\tOutput:\n" + data.output ;
+					result += "\n------------------------------------------------------------------------------------------------------" + "\nReport runtime: " + data.runtime +  "\nLanguage: " + data.language + "\nTotal Lines = "+ data.line+ "\nTotal Letters = "+ data.lettercount + "\nCode: \n\n" + data.code + "\n\nInput:\n" + data.input + "\n\nOutput:\n" + data.output  ;
 					});
 					// Create the pdf
 					let doc = new jsPDF();
-					doc.text("LAT Report", 10, 10);
-				    	let linesPerPage = 44; // change this to adjust the number of lines per page 
+					// Get the width of the page 
+					let pageWidth = doc.internal.pageSize.width; 
+					// Calculate the center position 
+					let center = pageWidth / 2; 
+					// Write the "LAT Report" text centered on the page 
+					doc.text("LAT Report", center, 5, { align: "center" });
+				    let linesPerPage = 44; // change this to adjust the number of lines per page 
 					let lines = result.split('\n');
 					for (let i = 0; i < lines.length; i += linesPerPage) {
-						doc.text(lines.slice(i, i + linesPerPage).join('\n'), 10, 20);
+						doc.text(lines.slice(i, i + linesPerPage).join('\n'), 10, 15);
 						if (i + linesPerPage < lines.length) {
 							doc.addPage();
 						}
@@ -190,57 +195,6 @@ function getdata(){
 	}
 }
 
-	
-	
-/*
-//Submit function to get LAT report...
-function getdata(){
-	if(RunTime > 0)
-	{
-    let msg = "confirmation to submit";
-    if (confirm(msg) == true){
-	    if(confirm("Submit Successfully \n\n You want to download your report?") == true)
-	    {
-	    const fileName = prompt("change to file name...", "LAT_report.pdf");
-	    if(fileName != null)
-	    {
-        let editorLength = editor.getSession().getLength();
-        let editorValue = editor.getValue().length;
-        let input = inputArea.value;
-        let output = Output;
-        let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\nCode: \n\n"+ editor.getValue()+ "\n\nInput:\n "+ input+ "\n\nOutput: \n"+ output
-        // Create the pdf
-        let doc = new jsPDF();
-	doc.text("LAT Report", 10, 10);
-		    
-        let linesPerPage = 44; // change this to adjust the number of lines per page 
-	let lines = result.split('\n'); 
-	for (let i = 0; i < lines.length; i += linesPerPage) { 
-		doc.text(lines.slice(i, i + linesPerPage).join('\n'), 10, 20); 
-		if (i + linesPerPage < lines.length) { 
-			doc.addPage(); 
-		} 
-	}
-        
-        // Save the pdf
-        doc.save(fileName, {download: true});
-	    }
-	    }
-    }
-    else{
-        alert("Submit canceled");
-    }
-	}
-	else{
-		alert("Code is not Run");
-	}
-}
-
-
-
-
-*/
-       
 	
 //*****************************************************************Start Time functions*****************************************************************
 var s = 0;
