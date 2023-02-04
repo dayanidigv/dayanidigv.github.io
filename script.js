@@ -143,8 +143,16 @@ function getdata(){
         let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n\nCode: \n"+ editor.getValue()+ "\nInput:\n "+ input+ "\n\nOutput: \n"+ output
         // Create the pdf
         let doc = new jsPDF();
-		doc.text("LAT Report", 10, 10);
-        doc.text(result, 10, 20);
+	doc.text("LAT Report", 10, 10);
+		    
+        let linesPerPage = 45; // change this to adjust the number of lines per page 
+	let lines = result.split('\n'); 
+	for (let i = 0; i < lines.length; i += linesPerPage) { 
+		doc.text(lines.slice(i, i + linesPerPage).join('\n'), 10, 20); 
+		if (i + linesPerPage < lines.length) { 
+			doc.addPage(); 
+		} 
+	}
         
         // Save the pdf
         doc.save(fileName, {download: true});
