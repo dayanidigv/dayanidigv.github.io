@@ -157,11 +157,11 @@ function getdata(){
        					let editorValue = editor.getValue().length;
       					let input = inputArea.value;
         				let output = Output;
-        				let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n";
+        				let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue;
    
 					let dataArray = JSON.parse(sessionStorage.getItem("dataArray"));
 					dataArray.forEach(data => {
-					result += "Report runtime: " + data.runtime + "\n\nCode: \n\n" + data.code + "\n\nInput:\n\n" + data.input + "\n\nOutput:\n\n" + data.output + "\n\nLanguage: " + data.lang + "\n\n";
+					result += "☞ Report runtime: " + data.runtime +  "\n\nLanguage: " + data.language + "\n" + "\n\nCode: \n\n" + data.code + "\n\nInput:\n" + data.input + "\n\nOutput:\n" + data.output ;
 					});
 					// Create the pdf
 					let doc = new jsPDF();
