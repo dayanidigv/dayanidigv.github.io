@@ -114,10 +114,12 @@ runButton.addEventListener("click", function() {
 		if (data.output != ""){
 		outputArea.value = data.output;
 		Output = data.output;
+			console.log(data.output);
 		}
 		else{
 		outputArea.value = data.error;
 		Output = data.error;
+			console.log(data.error);
 		}
 			
 		// Store the data for each run
