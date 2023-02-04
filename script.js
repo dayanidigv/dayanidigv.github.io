@@ -131,20 +131,25 @@ function getdata(){
 	{
     let msg = "confirmation to submit";
     if (confirm(msg) == true){
+	    if(confirm("Submit Successfully \n\n You want to download your report?") == true)
+	    {
+	    const fileName = prompt("change to file name...", "LAT_report.pdf");
+	    if(fileName != Null)
+	    {
         let editorLength = editor.getSession().getLength();
         let editorValue = editor.getValue().length;
         let input = inputArea.value;
         let output = Output;
-        let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n\nCode: \n"+ editor.getValue()+ "\n\nInput:\n "+ input+ "\n\nOutput: \n"+ output
+        let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n\nCode: \n"+ editor.getValue()+ "\nInput:\n "+ input+ "\n\nOutput: \n"+ output
         // Create the pdf
         let doc = new jsPDF();
 		doc.text("LAT Report", 10, 10);
-        doc.text(result, 10, 30);
-        
+        doc.text(result, 10, 20);
         
         // Save the pdf
-        doc.save("submission.pdf", {download: true});
-
+        doc.save(fileName, {download: true});
+	    }
+	    }
     }
     else{
         alert("Submit canceled");
