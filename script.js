@@ -142,6 +142,7 @@ runButton.addEventListener("click", function() {
 	}
 });
 
+sessionStorage.removeItem("dataArray")
 //Submit function to get LAT report...
 function getdata(){
 	if(RunTime >= 0)
