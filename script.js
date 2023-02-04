@@ -134,7 +134,7 @@ function getdata(){
 	    if(confirm("Submit Successfully \n\n You want to download your report?") == true)
 	    {
 	    const fileName = prompt("change to file name...", "LAT_report.pdf");
-	    if(fileName != Null)
+	    if(fileName != null)
 	    {
         let editorLength = editor.getSession().getLength();
         let editorValue = editor.getValue().length;
