@@ -144,6 +144,56 @@ runButton.addEventListener("click", function() {
 
 //Submit function to get LAT report...
 function getdata(){
+	if(RunTime >= 0)
+	{
+		let msg = "confirmation to submit";
+		if (confirm(msg) == true){
+			if(confirm("Submit Successfully \n\n You want to download your report?") == true)
+			{
+				const fileName = prompt("change to file name...", "LAT_report.pdf");
+				if(fileName != null)
+				{
+					let editorLength = editor.getSession().getLength();
+       					let editorValue = editor.getValue().length;
+      					let input = inputArea.value;
+        				let output = Output;
+        				let result = "Question : "+ q_uestion + "\n\nTotal Time = " + value+ "\nQuestion view Time = "+ value1+ "\nTotal Run Counts = "+ RunTime+ "\nTotal Lines = "+ editorLength+ "\nTotal Letters = "+ editorValue+ "\nLanguage = "+ lang+ "\n";
+   
+					let dataArray = JSON.parse(sessionStorage.getItem("dataArray"));
+					dataArray.forEach(data => {
+					result += "Report runtime: " + data.runtime + "\n\nCode: \n\n" + data.code + "\n\nInput:\n\n" + data.input + "\n\nOutput:\n\n" + data.output + "\n\nLanguage: " + data.lang + "\n\n";
+					});
+					// Create the pdf
+					let doc = new jsPDF();
+					doc.text("LAT Report", 10, 10);
+				    	let linesPerPage = 44; // change this to adjust the number of lines per page 
+					let lines = result.split('\n');
+					for (let i = 0; i < lines.length; i += linesPerPage) {
+						doc.text(lines.slice(i, i + linesPerPage).join('\n'), 10, 20);
+						if (i + linesPerPage < lines.length) {
+							doc.addPage();
+						}
+					}
+
+       					 // Save the pdf
+        				doc.save(fileName, {download: true});
+	    			}
+	   		 }
+   		 }
+   		 else{
+      			  alert("Submit canceled");
+    		}
+	}
+	else{
+		alert("Code is not Run");
+	}
+}
+
+	
+	
+/*
+//Submit function to get LAT report...
+function getdata(){
 	if(RunTime > 0)
 	{
     let msg = "confirmation to submit";
@@ -188,7 +238,7 @@ function getdata(){
 
 
 
-
+*/
        
 	
 //*****************************************************************Start Time functions*****************************************************************
