@@ -57,7 +57,7 @@ editor.getSession().on("change", function() {
   lineCount.innerHTML = editor.getSession().getLength();
 });
 
-//.................................................get Code Language and set editor theme....................................................
+//.................................................get Code Language and set editor Mode....................................................
 languageSelect.addEventListener("change", function() {
 	
 	if (this.value == "python")
@@ -90,7 +90,7 @@ languageSelect.addEventListener("change", function() {
 
 
 
-//.................................................Use fetch API to send a POST request to get output..................................................
+//................................................Run Function...................................................
 let RunTime = 0;
 let dataArray = [];
 runButton.addEventListener("click", function() {
@@ -98,6 +98,7 @@ runButton.addEventListener("click", function() {
 		RunTime++;
 		spinner.style.display = "block";
 		outputArea.style.display = "none";
+		//Use fetch API to send a POST request to get output...
 		fetch('https://api.codex.jaagrav.in/', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -118,7 +119,7 @@ runButton.addEventListener("click", function() {
 		Output = data.error;
 		}
 		const codeLength = editor.getSession().getLength();
-       	const codeValueCount = editor.getValue().length;
+       		const codeValueCount = editor.getValue().length;
 		// Store the data for each run in array
 		dataArray.push({
 			runtime: RunTime,
