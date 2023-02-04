@@ -27,7 +27,6 @@ var spinner = document.getElementById("spinner");
 
 var Output = "";
 var lang = "";
-var RunTime = 0;
 
 
 
@@ -91,32 +90,48 @@ languageSelect.addEventListener("change", function() {
 themeSelect.addEventListener("change", function() {
     editor.setTheme(this.value);
 });
+
+
 // Use fetch API to send a POST request to get output.
+let RunTime = 0;
+let dataArray = [];
 runButton.addEventListener("click", function() {
 	if(languageSelect.value != ""){
-		RunTime = RunTime + 1;
+		RunTime++;
 		spinner.style.display = "block";
 		outputArea.style.display = "none";
 		fetch('https://api.codex.jaagrav.in/', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ language: lang, code: editor.getValue(), input: inputArea.value })
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ language: lang, code: editor.getValue(), input: inputArea.value })
 		})
 		.then(res => res.json())
 		.then(data => {
-			spinner.style.display = "none";
-			outputArea.style.display = "block";
-			// Display the output in the "outputArea" element
-			if (data.output != ""){
-				outputArea.value = data.output;
-				Output = data.output;
-			}
-			else{
-				outputArea.value = data.error;
-				Output = data.error;
-			}
-		})
-		.catch(err => {
+		spinner.style.display = "none";
+		outputArea.style.display = "block";
+			
+		// Display the output in the "outputArea" element
+		if (data.output != ""){
+		outputArea.value = data.output;
+		Output = data.output;
+		}
+		else{
+		outputArea.value = data.error;
+		Output = data.error;
+		}
+			
+		// Store the data for each run
+		dataArray.push({
+			runtime: RunTime,
+			code: editor.getValue(),
+			input: inputArea.value,
+			output: Output,
+			language: lang
+		});
+			
+		// Store the data in session storage
+		sessionStorage.setItem("dataArray", JSON.stringify(dataArray));
+		}).catch(err => {
 			console.error(err);
 		});
 	}
