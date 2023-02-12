@@ -6,6 +6,7 @@ var codeArea = document.getElementById("editor");
 var inputArea = document.getElementById("input-area");
 var outputArea = document.getElementById("output-area");
 var runButton = document.getElementById("run-button");
+var submitButton = document.getElementById("submit-button");
 var languageSelect = document.getElementById("language-select");
 var themeSelect = document.getElementById("theme-select");
 var letterCount = document.getElementById("letter-count");
@@ -145,7 +146,7 @@ runButton.addEventListener("click", function() {
 //.................................................remove the dataArray in session storage if the page is reloaded.................................................
 sessionStorage.removeItem("dataArray")
 //Submit function to get LAT report...
-function getdata(){
+submitButton.addEventListener("click", function() {
 	if(RunTime >= 0)
 	{
 		let msg = "confirmation to submit";
