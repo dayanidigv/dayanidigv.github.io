@@ -195,7 +195,7 @@ submitButton.addEventListener("click", function() {
 	else{
 		alert("Code is not Run");
 	}
-}
+});
 
 	
 //*****************************************************************Start Time functions*****************************************************************
