@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Push Notification with Firebase</title>
+  <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
+</head>
+<body>
+  <h1>Push Notification with Firebase</h1>
+
+  <button id="subscribeButton" disabled>Subscribe to Push Notifications</button>
+  <button id="unsubscribeButton" disabled>Unsubscribe from Push Notifications</button>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyA-BLqLAnob7AEzvVfkeq_ecMkwafTSmtM",
+      authDomain: "portfolio-2c6e2.firebaseapp.com",
+      projectId: "portfolio-2c6e2",
+      storageBucket: "portfolio-2c6e2.appspot.com",
+      messagingSenderId: "408822810456",
+      appId: "1:408822810456:web:a618751b9713b8be7d872d",
+      measurementId: "G-2WHDDR24F8"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the Firebase Messaging service
+    var messaging = firebase.messaging();
+
+    // Request permission to receive push notifications
+    messaging.requestPermission()
+      .then(function() {
+        console.log('Notification permission granted.');
+        // Enable subscribe button
+        document.getElementById('subscribeButton').disabled = false;
+      })
+      .catch(function(error) {
+        console.log('Unable to get permission to notify.', error);
+      });
+
+    // Handle token refresh
+    messaging.onTokenRefresh(function() {
+      messaging.getToken()
+        .then(function(refreshedToken) {
+          console.log('Token refreshed:', refreshedToken);
+          // Send the refreshed token to your server for further processing
+        })
+        .catch(function(error) {
+          console.log('Unable to retrieve refreshed token.', error);
+        });
+    });
+
+    // Handle incoming messages
+    messaging.onMessage(function(payload) {
+      console.log('Received message:', payload);
+
+      // Display a notification
+      if (Notification.permission === 'granted') {
+        var title = payload.notification.title;
+        var options = {
+          body: payload.notification.body,
+          icon: payload.notification.icon,
+          click_action: payload.notification.click_action
+        };
+        var notification = new Notification(title, options);
+
+        // Open a new window or tab when the notification is clicked
+        notification.addEventListener('click', function(event) {
+          event.preventDefault();
+          window.open(payload.notification.click_action, '_blank');
+          notification.close();
+        });
+      }
+
+      // Update the UI or perform other custom actions
+      // ...
+    });
+
+    // Handle subscribe button click event
+    var subscribeButton = document.getElementById('subscribeButton');
+    subscribeButton.addEventListener('click', function() {
+      messaging.getToken()
+        .then(function(currentToken) {
+          if (currentToken) {
+            console.log('Token:', currentToken);
+            // Send the token to your server for storing or processing
+          } else {
+            console.log('No registration token available. Request permission to generate one.');
+          }
+        })
+        .catch(function(error) {
+          console.log('An error occurred while retrieving token.', error);
+        });
+    });
+
+    // Handle unsubscribe button click event
+    var unsubscribeButton = document.getElementById('unsubscribeButton');
+    unsubscribeButton.addEventListener('click', function() {
+      messaging.getToken()
+        .then(function(currentToken) {
+          if (currentToken) {
+            messaging.deleteToken(currentToken)
+              .then(function() {
+                console.log('Token successfully deleted.');
+                // Remove the token from your server or update its status
+              })
+              .catch(function(error) {
+                console.log('An error occurred while deleting token.', error);
+              });
+          } else {
+            console.log('No registration token available. Request permission to generate one.');
+          }
+        })
+        .catch(function(error) {
+          console.log('An error occurred while retrieving token.', error);
+        });
+    });
+  </script>
+</body>
+</html>
