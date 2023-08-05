@@ -1,0 +1,9 @@
+firebaseConfig = {
+  "apiKey": "AIzaSyBTtDY9akz89aTtEd5PERS9JAwbA7XxKus",
+  "authDomain": "afpluaas.firebaseapp.com",
+  "projectId": "afpluaas",
+  "storageBucket": "afpluaas.appspot.com",
+  "messagingSenderId": "285419773137",
+  "appId": "1:285419773137:web:7d2b00758bd4e8ccd6b9f0",
+  "measurementId": "G-WCX426GJR6"
+};
