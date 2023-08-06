@@ -2,6 +2,7 @@
   apiKey: "AIzaSyD7dvQeDa0IZxSaB-yOtP-N3jxcdjP3mG8",
   authDomain: "pythonconsolechat.firebaseapp.com",
   projectId: "pythonconsolechat",
+  databaseURL: "https://pythonconsolechat-default-rtdb.firebaseio.com",
   storageBucket: "pythonconsolechat.appspot.com",
   messagingSenderId: "197676748071",
   appId: "1:197676748071:web:b335688a41492782b26d02"
